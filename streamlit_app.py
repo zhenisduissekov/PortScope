@@ -13,16 +13,10 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom CSS for better styling
+# Basic Custom CSS
 st.markdown("""
 <style>
-    .main .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
-    .stButton>button {
-        width: 100%;
-    }
+    /* Basic styling for cards */
     .shipment-card {
         padding: 15px;
         border-radius: 10px;
@@ -123,12 +117,14 @@ with tab2:
     st.subheader("Vessel Locations")
     map_data = prepare_map_data(st.session_state.shipments)
     if not map_data.empty:
-        st.map(map_data, 
-              latitude='lat',
-              longitude='lon',
-              size=20,
-              color='#FF4B4B',
-              use_container_width=True)
+        st.map(
+            map_data, 
+            latitude='lat',
+            longitude='lon',
+            size=200,
+            color='#FF4B4B',
+            use_container_width=True
+        )
     else:
         st.warning("No vessel data available for mapping.")
 
