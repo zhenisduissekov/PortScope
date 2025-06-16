@@ -3,5 +3,5 @@ pythonVersion = "3.10"
 
 [server]
 headless = true
-port = $PORT
+port = 8501  # Default Streamlit port
 enableCORS = false
