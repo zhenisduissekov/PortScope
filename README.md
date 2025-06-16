@@ -15,65 +15,121 @@ PortScope is a Streamlit-based dashboard for monitoring port logistics operation
 ## 🛠️ Installation
 
 ### Prerequisites
-- Python 3.8 or higher
+- Python 3.10 (recommended)
 - pip (Python package manager)
 
-### Setup Instructions
+### Project Configuration
 
-#### Using pip (Recommended)
+#### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/portscope.git
+cd portscope
+```
 
-1. Clone the repository:
+#### 2. Create and Configure .streamlit Directory
+Create a `.streamlit` directory and `config.toml` file to manage Streamlit configuration:
+
+```bash
+# Create .streamlit directory
+mkdir -p .streamlit
+
+# Create config.toml with recommended settings
+echo '[scheduler]
+pythonVersion = "3.10"' > .streamlit/config.toml
+```
+
+**Why this is important:**
+- The `.streamlit/config.toml` file ensures consistent Python version usage across different environments.
+- It helps prevent compatibility issues between local development and deployment.
+- The Python version specified here should match your `runtime.txt` for deployment.
+
+### Setup Virtual Environment
+
+#### Option 1: Using venv (Recommended)
+
+1. **Create a new virtual environment**:
    ```bash
-   git clone https://github.com/yourusername/portscope.git
-   cd portscope
-   ```
-
-2. Create and activate a virtual environment:
-   ```bash
-   # On macOS/Linux
-   python3 -m venv venv
-   source venv/bin/activate
+   # For Python 3.10
+   python3.10 -m venv venv
    
-   # On Windows
+   # For default Python version
    # python -m venv venv
-   # venv\Scripts\activate
    ```
 
-3. Install the required packages:
+2. **Activate the virtual environment**:
+   - On macOS/Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+   - On Windows:
+     ```cmd
+     .\venv\Scripts\activate
+     ```
+
+3. **Upgrade pip**:
+   ```bash
+   pip install --upgrade pip
+   ```
+
+4. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-#### Using pipenv
+#### Option 2: Using pipenv
 
 ```bash
 # Install pipenv if you don't have it
 pip install --user pipenv
 
-# Clone and navigate to project
-pipenv install
+# Install dependencies
+pipenv install -r requirements.txt
+
+# Activate the virtual environment
 pipenv shell
 ```
 
-## 🚦 Running the Application
+### 🚀 Running the Application
 
-1. Activate your virtual environment (if not already activated):
-   ```bash
-   # macOS/Linux
-   source venv/bin/activate
-   
-   # Windows
-   # venv\Scripts\activate
-   ```
+1. **Ensure virtual environment is activated** (you should see `(venv)` at the start of your terminal prompt)
 
-2. Start the Streamlit app:
+2. **Start the Streamlit app**:
    ```bash
    streamlit run streamlit_app.py
    ```
 
-3. Open your web browser and navigate to:
+3. **Access the application**:
+   Open your web browser and navigate to:
    ```
    http://localhost:8501
+   ```
+
+## 🔄 Environment Management
+
+### Resetting the Environment
+
+If you encounter issues, you can reset your environment:
+
+```bash
+# Deactivate the current virtual environment (if active)
+deactivate
+
+# Remove the existing virtual environment
+rm -rf venv
+
+# Then follow the setup instructions above to create a fresh environment
+```
+
+### Updating Dependencies
+
+1. Activate your virtual environment
+2. Update packages:
+   ```bash
+   pip install --upgrade -r requirements.txt
+   ```
+3. To update a specific package:
+   ```bash
+   pip install --upgrade package_name
    ```
 
 ## ☁️ Deployment
@@ -86,33 +142,35 @@ pipenv shell
 4. Configure the app:
    - Branch: `main` (or your preferred branch)
    - Main file path: `streamlit_app.py`
+   - Advanced settings:
+     - Python version: 3.10
+     - Command: `sh setup.sh && streamlit run streamlit_app.py`
 5. Click "Deploy!"
 
-### Other Cloud Providers
+### Configuration for Deployment
 
-#### Heroku
+- The `setup.sh` script will:
+  - Create necessary directories and config files
+  - Install dependencies with `--prefer-binary` flag
+  - Set up proper Python version and server configuration
+- The `runtime.txt` specifies Python 3.10.13
+- All dependencies are specified in `requirements.txt`
 
-1. Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
-2. Create a `Procfile` in your project root:
-   ```
-   web: sh setup.sh && streamlit run streamlit_app.py
-   ```
-3. Create `setup.sh`:
-   ```bash
-   mkdir -p ~/.streamlit/
-   echo "\
-   [server]\n\
-   headless = true\n\
-   port = $PORT\n\
-   enableCORS = false\n\
-   \n   " > ~/.streamlit/config.toml
-   ```
-4. Deploy to Heroku:
-   ```bash
-   heroku create
-   git push heroku main
-   heroku open
-   ```
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+1. **Python Version Mismatch**:
+   - Ensure Python 3.10 is installed
+   - Verify `runtime.txt` and `.streamlit/config.toml` specify the same Python version
+
+2. **Dependency Conflicts**:
+   - Delete the virtual environment and create a fresh one
+   - Make sure to use `--prefer-binary` in `requirements.txt`
+
+3. **Port Already in Use**:
+   - Change the port: `streamlit run streamlit_app.py --server.port=8502`
+   - Or kill existing processes: `pkill -f "streamlit run"`
 
 ## 📂 Project Structure
 
