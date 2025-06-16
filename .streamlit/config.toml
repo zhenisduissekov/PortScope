@@ -1,2 +1,7 @@
 [scheduler]
 pythonVersion = "3.10"
+
+[server]
+headless = true
+port = $PORT
+enableCORS = false
